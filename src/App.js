@@ -38,7 +38,6 @@ class Kus {
     this.yercekimi += this.ivme;
     this.yercekimi = Math.min(4, this.yercekimi);
     this.y += this.yercekimi
-    //console.log(ustborux, ustboruy, yakinboruy)
     this.dusun(ustborux, ustboruy, yakinboruy)
   }
 
@@ -86,10 +85,7 @@ class Boru {
   ciz(ctx) {
     this.ctx.fillStyle = "black";
     this.altboruyukseklik = YUKSEKLIK - (this.yukseklik + this.bosluk)
-    
-    // fillRect(x, y, genişlik, uzunluk)
     this.ctx.fillRect(this.x, this.y, this.genislik, this.yukseklik);
-    //this.ctx.fillRect(this.x, this.yukseklik + this.bosluk, this.genislik, this.altboruyukseklik);
   }
 
   update() {
@@ -157,7 +153,6 @@ class App extends React.Component {
 
   dongu() {
     this.update()
-    //if(this.generation < 50) return;
     this.ciz()
   }
 
@@ -179,30 +174,20 @@ class App extends React.Component {
       this.borular.push(...uretilenboru);
     }
 
-    // boru güncelle
-    this.borular.forEach(boru => boru.update())
-    
-    // kus güncelle
-    
+    this.borular.forEach(boru => boru.update())   
     this.kuslar.forEach(kus => {
       const yakinboru = this.yakinborusec(kus);
       kus.update(yakinboru.x, yakinboru.y + yakinboru.yukseklik, yakinboru.y)
     })
 
-    // ölü boruyu sil
     this.borular = this.borular.filter(boru => boru.durum === true)
-
-    // ölü kuşu sil
     this.kus_durum_guncelle()
     this.olukuslar.push(...this.kuslar.filter(kus => kus.durum === true))
     this.kuslar = this.kuslar.filter(kus => !kus.durum === true)
 
     if (this.kuslar.length === 0) {
       let totalyas = 0;
-
-      // toplam yaşı al
       this.olukuslar.forEach(olukus => totalyas += olukus.yas);
-      // kuvvet hesapla
       this.olukuslar.forEach(olukus => olukus.kuvvet = olukus.yas / totalyas)
       
       this.bestkuslar = this.olukuslar
